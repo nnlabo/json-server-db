@@ -8,10 +8,10 @@
   "profile": {
     "name": "typicode"
   },
-  "sales":{
-     {"month": "2019年1月", "number": 120},
-     {"month": "2019年2月", "number": 500},
-     {"month": "2019年3月", "number": 900},
-     {"month": "2019年4月", "number": 120},
-  }
+  "sales":[
+    {
+      "month": "2019年1月",
+      "number": 120
+    }
+  ]
 }

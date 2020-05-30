@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="UTF-8">
+	<title>冷凍車温度表示サンプル</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+</head>
+<body>
+
+    <div id="app" style="width:600px">
+        <p><button @click="displayGraph">平均温度表示</button></p>
+        <canvas id="myChart"></canvas>
+    </div>
+
+
+  
+<script>
+  var app = new Vue({
+    el: '#app',
+    data: {
+      labels : [],
+      data: []
+    },
+    methods:{
+      displayGraph: function(){
+        var ctx = document.getElementById('myChart').getContext('2d');
+        
+        var data = {
+            labels: this.labels,
+            datasets: [
+            {
+                label: '平均値',
+                data: this.temp_ave,
+                fill: false, 
+                backgroundColor: "rgba(200,30,30,0)",
+                borderColor:  "rgba(230,10,10,1)",
+                lineTension: 0.2,
+            },
+            {
+                label: '最大値',
+                data: this.temp_max,
+                fill: false, 
+                backgroundColor: "rgba(200,30,30,1)",
+                borderColor:  "rgba(230,10,10,1)",
+                borderWidth: 0,
+                lineTension: 0.2,
+                pointStyle: 'line',
+                showLine: false,
+            },
+            {
+                label: '最小値',
+                data: this.temp_min,
+                fill: false, 
+                backgroundColor: "rgba(30,30,200,1)",
+                borderColor:  "rgba(10,10,230,1)",
+                borderWidth: 0,
+                lineTension: 0.2,
+                pointStyle: 'line',
+                showLine: false,
+            }
+            
+            
+            ]
+        };
+        
+        var options = {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        min: -40,
+                        max: 40
+                        //beginAtZero: true
+                    }
+                }]
+            },
+            title: {
+                display: true,
+                text: '1号車温度履歴(平均/最大/最小)'
+            }
+        };
+        
+        var myChart = new Chart(ctx, {
+        type: 'line',
+        data: data,
+        options: options
+        
+        });
+      }
+    },
+    
+    mounted: function(){
+      axios.get('https://my-json-server.typicode.com/nnlabo/json-server-db/temp').then(response =>{
+
+        this.temp_ave = response.data.map(temp=>temp.temp_ave);
+        this.temp_max = response.data.map(temp=>temp.temp_max);
+        this.temp_min = response.data.map(temp=>temp.temp_min);
+        this.labels = response.data.map(temp=>temp.date);
+
+        //this.displayGraph();
+
+      })
+    }
+    
+  });
+</script>
+</body>
+</html>

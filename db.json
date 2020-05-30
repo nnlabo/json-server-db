@@ -230,5 +230,10 @@
         "bs": "target end-to-end models"
       }
     }
-  ]
-}
+  ],
+  "sales": [
+    {month: "2019年1月", number: 120},
+    {month: "2019年2月", number: 190},
+    {month: "2019年3月", number: 34},
+    {month: "2019年4月", number: 58},
+    ]

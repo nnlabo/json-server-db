@@ -6,6 +6,7 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/vue.router/2.0.1/vue-router.min.js"></script>
 
 </head>
 <body>
@@ -14,6 +15,7 @@
         <p><button @click="displayGraph_ave">平均温度表示</button>
         <button @click="displayGraph_raw">全温度表示</button></p>
         <canvas id="myChart"></canvas>
+        <canvas id="myChart2"></canvas>
     </div>
 
 
@@ -96,7 +98,7 @@
       
     displayGraph_raw: function(){
 
-        var ctx = document.getElementById('myChart').getContext('2d');
+        var ctx = document.getElementById('myChart2').getContext('2d');
         
         var data = {
             labels: this.labels_raw,
@@ -131,7 +133,7 @@
             }
         };
         
-        var myChart = new Chart(ctx, {
+        var myChart2 = new Chart(ctx, {
         type: 'line',
         data: data,
         options: options

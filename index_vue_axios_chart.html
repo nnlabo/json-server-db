@@ -25,6 +25,15 @@
           background-color: #007db9;
       }
       
+      #app {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 80%;
+          max-width: 1280px;
+          margin: 0 auto;
+      }
+      
       #nav {
           display: flex;
           align-items: center;
@@ -130,13 +139,14 @@
     
     
     
-    <div id="app" style="width: 600px;">
+    <div id="app">
       
       <p>
         <button @click="displayGraph_ave">時毎温度表示</button> <button @click="displayGraph_raw">分毎温度表示</button>
-      </p>
-      <canvas id="myChart"></canvas>
+      </p><BR>
+        <canvas id="myChart"></canvas>
     </div>
+    
   </body>
 
     <script>

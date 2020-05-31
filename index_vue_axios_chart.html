@@ -7,24 +7,207 @@
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/vue.router/2.0.1/vue-router.min.js"></script>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="">
+    <meta name=" robots" content="noindex">
+    <meta name="description" content="">
+    
+    <style type="text/css">
+
+      body {
+          margin: 0;
+          padding: 0;
+      }
+      header {
+          width: 100%;
+          background-color: #007db9;
+      }
+      
+      #nav {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+          max-width: 1280px;
+          margin: 0 auto;
+      }
+      
+      #nav > ul {
+          display: flex;
+          margin: 0;
+          padding: 0;
+          list-style-type: none;
+      }
+      
+      #nav > ul > li > a {
+          display: block;
+          height: auto;
+          padding: 20px;
+          color: #fff;
+          text-decoration: none;
+      }
+      
+      #nav > ul > li > span {
+          position: relative;
+          display: block;
+          height: auto;
+          padding: 20px;
+          color: #fff;
+          text-decoration: none;
+          cursor: pointer;
+      }
+      
+      #nav > ul > li > span:after {
+          content: '▼';
+          display: inline-block;
+      
+      }
+      
+      .dropdown {
+          position: absolute;
+          top: 100%;
+          left: 0;
+          display: none;
+          padding: 0;
+          list-style-type: none;
+          background-color: #007db9;
+      }
+      
+      .dropdown li {
+          width: 250px;
+          border-bottom: 1px solid #fff;
+      }
+      
+      .dropdown li a {
+          display: block;
+          padding: 10px;
+          color: #fff;
+          text-decoration: none;
+      }
+      
+      .isOpen {
+          display: block;
+      }
+
+    </style>
+    
+
   </head>
+  
   <body>
+    
+        <header>
+            <nav id="nav">
+                <ul>
+                    <li
+                        v-for="item in items">
+                        <a :href="item.url"
+                           v-if="!item.children">
+                            {{ item.name }}
+                        </a>
+                        <span
+                            v-else
+                            v-on:mouseover="mouseover"
+                            v-on:mouseleave="mouseleave">
+                            {{ item.name }}
+                            
+                            <ul class=" dropdown"
+                               :class="{ isOpen }">
+                                <li
+                                    v-for="child in item.children">
+                                    <a :href="child.url">
+                                        {{ child.name }}
+                                    </a>
+                                </li>
+                            </ul>
+                        </span>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+    
+    
+    
     <div id="app" style="width: 600px;">
+      
       <p>
-        <button @click="displayGraph_ave">平均温度表示</button> <button @click="displayGraph_raw">全温度表示</button>
+        <button @click="displayGraph_ave">時毎温度表示</button> <button @click="displayGraph_raw">分毎温度表示</button>
       </p>
       <canvas id="myChart"></canvas>
     </div>
+  </body>
 
     <script>
+    
+      var nav = new Vue({
+          el: '#nav',
+          data: {
+              isOpen: false,
+              items: [
+                  {
+                      url: '#home',
+                      name: 'Home'
+                  },
+                  {
+                      url: '#about',
+                      name: 'About'
+                  },
+                  {
+                      url: '#Service',
+                      name: 'Service',
+                      children: [
+                          {
+                              url: '#car1',
+                              name: '1号車'
+                          },
+                          {
+                              url: '#car2',
+                              name: '2号車'
+                          },
+                          {
+                              url: '#car3',
+                              name: '3号車'
+                          },
+                      ]
+                  },
+                  {
+                      url: '#contact',
+                      name: 'Contact'
+                  }
+              ]
+          },
+      
+          methods: {
+              mouseover: function () {
+                  this.isOpen = true;
+              },
+              mouseleave: function () {
+                  this.isOpen = false;
+              }
+          }
+      });
+    
+    
+    
+    
       var app = new Vue({
         el: '#app',
         data: {
           myChart: null,
           labels: [],
           data: [],
+
         },
         methods: {
+          
+        	dropdown(list){
+          console.log(this.active);
+          	this.active = this.active===list ? "":list;
+        	},
+          
+          
           displayGraph_ave: function () {
             document.getElementById('myChart').style.display = 'block';
             var data = {
@@ -3024,5 +3207,5 @@
         },
       });
     </script>
-  </body>
+
 </html>

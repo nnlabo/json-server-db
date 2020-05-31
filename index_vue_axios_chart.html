@@ -28,6 +28,7 @@
       #app {
           max-width: 1280px;
           margin: 0 auto;
+          height: 500px;
       }
       
       #app > p {
@@ -38,12 +39,12 @@
       }
       
       #app > canvas {
-          display: flex;
           align-items: center;
           justify-content: center;
           width: 80%;
           max-width: 1280px;
           margin: 0 auto;
+          height: 500px;
       }
       
       
@@ -225,11 +226,6 @@
         },
         methods: {
           
-        	dropdown(list){
-          console.log(this.active);
-          	this.active = this.active===list ? "":list;
-        	},
-          
           
           displayGraph_ave: function () {
             document.getElementById('myChart').style.display = 'block';
@@ -300,6 +296,7 @@
         mounted: function () {
           document.getElementById('myChart').style.display = 'none';
           var ctx = document.getElementById('myChart').getContext('2d');
+          ctx.canvas.height = 250;
 
           var data = {
             labels: this.labels,
@@ -325,6 +322,8 @@
               display: true,
               text: '1号車温度履歴',
             },
+            responsive: true,
+            maintainAspectRatio: false
           };
           this.myChart = new Chart(ctx, {
             type: 'line',

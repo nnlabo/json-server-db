@@ -156,8 +156,11 @@
     <div id="app">
       
       <p>
-        <button @click="displayGraph_ave">時毎温度表示</button> <button @click="displayGraph_raw">分毎温度表示</button>
-      </p><BR>
+        <button @click="displayGraph_ave">時毎温度表示</button> |
+        <button @click="displayGraph_raw">分毎温度表示</button> |
+        <button :disabled="!isAveData" @click="downloadData_ave">時毎温度データダウンロード</button> |
+        <button :disabled="!isRawData" @click="downloadData_raw">分毎温度データダウンロード</button> |
+      </p>
         <canvas id="myChart"></canvas>
     </div>
     
@@ -222,11 +225,56 @@
           myChart: null,
           labels: [],
           data: [],
+        isAveData: false,
+        isRawData: false,
+      },
+      methods: {
+        downloadData_ave: function () {
+          let csv_data = ['"Date","Ave.","Min.","Max."'];
 
+          const data_length = this.labels.length;
+          console.log(data_length);
+          for (let i = 0; i < data_length; i++) {
+            let data =
+              '"' +
+              this.labels[i] +
+              '","' +
+              this.temp_ave[i] +
+              '","' +
+              this.temp_min[i] +
+              '","' +
+              this.temp_max[i] +
+              '"';
+            csv_data.push(data);
+          }
+
+          const data = csv_data.join('\r\n');
+          this.export_csv(data, 'download_ave.csv');
         },
-        methods: {
+        downloadData_raw: function () {
+          let csv_data = ['"Date","Temp."'];
+
+          const data_length = this.labels.length;
+          for (let i = 0; i < data_length; i++) {
+            let data = '"' + this.labels_raw[i] + '","' + this.temp_raw[i] + '"';
+            csv_data.push(data);
+          }
+
+          const data = csv_data.join('\r\n');
+          this.export_csv(data, 'download_raw.csv');
+        },
+        export_csv: function (raw_data, filename) {
+          const UTF_8_BOM = '%EF%BB%BF';
           
+          const data = 'data:text/csv;charset=utf-8,' + UTF_8_BOM + encodeURIComponent(raw_data);
           
+          var element = document.createElement('a');
+          element.href = data;
+          element.setAttribute('download', filename);
+          document.body.appendChild(element);
+          element.click();
+          document.body.removeChild(element);
+        },
           displayGraph_ave: function () {
             document.getElementById('myChart').style.display = 'block';
             var data = {
@@ -337,6 +385,7 @@
             this.temp_max = response.data.map((temp) => temp.temp_max);
             this.temp_min = response.data.map((temp) => temp.temp_min);
             this.labels = response.data.map((temp) => temp.date);
+          this.isAveData = true;
 
             //this.displayGraph();
           });
@@ -345,6 +394,7 @@
           axios.get('https://8eyxkugx5h.execute-api.ap-northeast-1.amazonaws.com/prod/temperature/raw?DeviceID=DEV001&time=1560100060').then((response) => {
             this.temp_raw = response.data.map((temp) => temp.temp_raw);
             this.labels_raw = response.data.map((temp) => temp.timestamp);
+            this.isRawData = true;
 
             //this.displayGraph();
           });

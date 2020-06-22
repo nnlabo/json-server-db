@@ -380,11 +380,11 @@
           });
 
           // get temp_ave data
-          axios.get('https://my-json-server.typicode.com/nnlabo/json-server-db/temp').then((response) => {
+          axios.get('https://8eyxkugx5h.execute-api.ap-northeast-1.amazonaws.com/prod/temperature/stat?DeviceID=DEV001').then((response) => {
             this.temp_ave = response.data.map((temp) => temp.temp_ave);
             this.temp_max = response.data.map((temp) => temp.temp_max);
             this.temp_min = response.data.map((temp) => temp.temp_min);
-            this.labels = response.data.map((temp) => temp.date);
+            this.labels = response.data.map((temp) => temp.DateTime);
           this.isAveData = true;
 
             //this.displayGraph();

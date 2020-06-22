@@ -254,7 +254,7 @@
         downloadData_raw: function () {
           let csv_data = ['"Date","Temp."'];
 
-          const data_length = this.labels.length;
+          const data_length = this.labels_raw.length;
           for (let i = 0; i < data_length; i++) {
             let data = '"' + this.labels_raw[i] + '","' + this.temp_raw[i] + '"';
             csv_data.push(data);

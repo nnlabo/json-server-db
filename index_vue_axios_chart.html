@@ -246,11 +246,13 @@
         isAveData: false,
         isRawData: false,
         device: deviceInfo[0],
+        selectedDevice: deviceInfo[0].name,
       },
       methods: {
         getData: async function (device) {
           this.device.id = device.id;
           this.device.name = device.name;
+          this.selectedDevice = device.name;
 
           const base_url = 'https://8eyxkugx5h.execute-api.ap-northeast-1.amazonaws.com/prod/temperature';
 
@@ -310,7 +312,7 @@
           }
 
           const data = csv_data.join('\r\n');
-          this.export_csv(data, 'download_ave.csv');
+          this.export_csv(data, `${this.selectedDevice}_ave.csv`);
         },
         downloadData_raw: function () {
           let csv_data = ['"Date","Temp."'];
@@ -322,7 +324,7 @@
           }
 
           const data = csv_data.join('\r\n');
-          this.export_csv(data, 'download_raw.csv');
+          this.export_csv(data, `${this.selectedDevice}_raw.csv`);
         },
         export_csv: function (raw_data, filename) {
           const UTF_8_BOM = '%EF%BB%BF';

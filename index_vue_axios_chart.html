@@ -250,7 +250,7 @@
         isAveData: false,
         isRawData: false,
         device: {},
-        selectedDevice: '',
+        selectedDeviceName: '',
       },
       methods: {
         getData: async function (device) {
@@ -316,7 +316,7 @@
           }
 
           const data = csv_data.join('\r\n');
-          this.export_csv(data, `${this.selectedDevice}_ave.csv`);
+          this.export_csv(data, `${this.selectedDeviceName}_ave.csv`);
         },
         downloadData_raw: function () {
           let csv_data = ['"Date","Temp."'];
@@ -328,7 +328,7 @@
           }
 
           const data = csv_data.join('\r\n');
-          this.export_csv(data, `${this.selectedDevice}_raw.csv`);
+          this.export_csv(data, `${this.selectedDeviceName}_raw.csv`);
         },
         export_csv: function (raw_data, filename) {
           const UTF_8_BOM = '%EF%BB%BF';

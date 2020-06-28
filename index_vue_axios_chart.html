@@ -144,7 +144,7 @@
 
     <div id="app">
       <p>
-        <span>{{device.name}} の温度計測結果</span>
+        <span>{{selectedDeviceName}} の温度計測結果</span>
       </p>
       <br />
       <p>
@@ -249,14 +249,14 @@
         labels: [],
         isAveData: false,
         isRawData: false,
-        device: deviceInfo[0],
-        selectedDevice: deviceInfo[0].name,
+        device: {},
+        selectedDevice: '',
       },
       methods: {
         getData: async function (device) {
           this.device.id = device.id;
           this.device.name = device.name;
-          this.selectedDevice = device.name;
+          this.selectedDeviceName = device.name;
 
           const base_url = 'https://8eyxkugx5h.execute-api.ap-northeast-1.amazonaws.com/prod/temperature';
 
